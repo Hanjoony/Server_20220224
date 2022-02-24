@@ -67,8 +67,14 @@ int main()
 		cout << "connect port : " << ntohs(ClientAddr.sin_port) << endl; 		// network to host short
 
 		// 5. 보낸다 자료를 클라이언트한테
-		char Message[] = "Hello World";						// '\0' 맨 뒤에 널포인트 포함 해야해서 +1 더함
+		char Message[1024] = { 0, };
+		recv(ClientSocket, Message, 1024 - 1, 0);
+
+		cout << "client sended : " << Message << endl;
+
 		send(ClientSocket, Message, strlen(Message) + 1, 0);
+
+		cout << "client send : " << Message << endl;
 
 		// 6. 연결 종료
 		closesocket(ClientSocket);
